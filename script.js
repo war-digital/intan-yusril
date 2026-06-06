@@ -175,20 +175,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const response = await fetch(SCRIPT_URL);
-            let wishesData = await response.json();
+            let rawData = await response.json();
 
             wishesList.innerHTML = '';
+
+            // Normalisasi key dari Spreadsheet (apapun huruf besar/kecilnya)
+            // Contoh: "Name" → "name", "Message" → "message", "Reply To" → "replyTo"
+            let wishesData = rawData.map(item => {
+                const normalized = {};
+                for (const key in item) {
+                    const k = key.trim().toLowerCase().replace(/\s+/g, '');
+                    if (k === 'name')          normalized.name    = String(item[key] || '');
+                    else if (k === 'message')  normalized.message = String(item[key] || '');
+                    else if (k === 'time')     normalized.time    = String(item[key] || '');
+                    else if (k === 'replyto')  normalized.replyTo = String(item[key] || '');
+                    else normalized[k] = item[key];
+                }
+                return normalized;
+            }).filter(w => w.name && w.name.trim() !== '');
 
             // Jika data dari Google Sheets kosong, tampilkan pesan default
             if (!wishesData || wishesData.length === 0) {
                 wishesData = [
-                    { name: "Keluarga Besar Bpk. Sudirman", message: "Selamat menempuh hidup baru Widy & Riswar. Semoga menjadi keluarga yang sakinah, mawaddah, warahmah.", time: new Date().toISOString() }
+                    { name: "Intan & Yusril", message: "Jadilah yang pertama mengirim ucapan untuk kedua mempelai! 💌", time: new Date().toISOString() }
                 ];
             }
 
             // Pisahkan pesan utama dan balasannya
-            const parents = wishesData.filter(w => !w.replyTo);
-            const replies = wishesData.filter(w => w.replyTo);
+            const parents = wishesData.filter(w => !w.replyTo || w.replyTo.trim() === '');
+            const replies  = wishesData.filter(w => w.replyTo && w.replyTo.trim() !== '');
 
             // Kelompokkan balasan berdasarkan ID induk (time)
             const repliesMap = {};
