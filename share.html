@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebar Undangan – Intan & Yusril</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --bg: #0f0a04;
+            --border: rgba(201,168,76,0.35);
+            --text: #f5ead8;
+            --muted: #a89070;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            background-image:
+                radial-gradient(ellipse at 30% 30%, rgba(201,168,76,0.09) 0%, transparent 55%),
+                radial-gradient(ellipse at 75% 75%, rgba(201,168,76,0.06) 0%, transparent 55%);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+        .header .sub {
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .header h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.8rem, 10vw, 4rem);
+            color: var(--gold-light);
+            line-height: 1;
+        }
+        .header .ornament {
+            color: var(--gold);
+            opacity: 0.5;
+            margin: 10px 0 6px;
+            font-size: 0.85rem;
+            letter-spacing: 6px;
+        }
+        .header .desc {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        /* Card */
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px 28px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Step label */
+        .step-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        /* Input */
+        .input-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-wrap input {
+            width: 100%;
+            background: rgba(255,255,255,0.06);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 15px 18px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .input-wrap input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201,168,76,0.12);
+        }
+        .input-wrap input::placeholder { color: var(--muted); }
+
+        /* Preview link */
+        .preview-link {
+            background: rgba(201,168,76,0.07);
+            border: 1px dashed rgba(201,168,76,0.3);
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.73rem;
+            color: var(--muted);
+            word-break: break-all;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            min-height: 42px;
+            transition: all 0.3s;
+        }
+        .preview-link .name-highlight {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        /* WhatsApp Button */
+        .btn-wa {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: opacity 0.3s, transform 0.2s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.25);
+            letter-spacing: 0.3px;
+        }
+        .btn-wa:hover {
+            opacity: 0.92;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(37,211,102,0.35);
+        }
+        .btn-wa:active { transform: translateY(0); }
+        .btn-wa:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Copy link only */
+        .btn-copy {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: transparent;
+            color: var(--gold-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .btn-copy:hover { background: rgba(201,168,76,0.1); transform: translateY(-1px); }
+        .btn-copy:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+
+        /* Divider */
+        .or {
+            text-align: center;
+            margin: 12px 0;
+            color: var(--muted);
+            font-size: 0.72rem;
+            position: relative;
+        }
+        .or::before, .or::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 38%;
+            height: 1px;
+            background: var(--border);
+        }
+        .or::before { left: 0; }
+        .or::after  { right: 0; }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: var(--gold);
+            color: #1a0f00;
+            padding: 10px 26px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.35s ease;
+            pointer-events: none;
+            z-index: 999;
+            white-space: nowrap;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 28px;
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-align: center;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <p class="sub">Undangan Digital</p>
+        <h1>Intan & Yusril</h1>
+        <div class="ornament">✦ ✦ ✦</div>
+        <p class="desc">15 Juni 2026</p>
+    </div>
+
+    <div class="card">
+        <p class="step-label">✉️ Kirim Undangan Personal</p>
+
+        <div class="input-wrap">
+            <input
+                type="text"
+                id="guestName"
+                placeholder="Ketik nama tamu undangan..."
+                autocomplete="off"
+                oninput="onNameInput()"
+                onkeydown="if(event.key==='Enter') sendWA()"
+            >
+        </div>
+
+        <div class="preview-link" id="previewLink">
+            Link undangan akan muncul di sini setelah Anda mengetik nama tamu...
+        </div>
+
+        <button class="btn-wa" id="btnWA" onclick="sendWA()" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M11.996 0A12.003 12.003 0 0 0 0 12.003c0 2.115.548 4.17 1.588 5.968l-1.554 5.672 5.804-1.523a11.968 11.968 0 0 0 6.158 1.688h.005C23.953 23.808 24 18.529 24 12.005A12.005 12.005 0 0 0 11.996 0zm0 21.794h-.003a9.976 9.976 0 0 1-5.088-1.39l-.364-.216-3.784.992 1.01-3.692-.237-.376A9.957 9.957 0 0 1 1.998 12.002c0-5.518 4.49-10.008 10.004-10.008 2.674 0 5.184 1.042 7.073 2.932 1.892 1.89 2.934 4.4 2.934 7.078 0 5.517-4.492 10.008-10.013 10.006v-.016h.001zm5.485-7.5c-.302-.15-1.782-.878-2.058-.98-.276-.102-.477-.15-.678.15s-.777.978-.953 1.178c-.175.2-.35.226-.652.076a8.214 8.214 0 0 1-2.42-1.493 9.077 9.077 0 0 1-1.677-2.083c-.176-.3-.018-.466.133-.616.136-.134.3-.3.45-.45s.2-.3.3-.5c.102-.2.05-.376-.025-.526-.075-.15-.678-1.63-.928-2.23-.243-.586-.488-.507-.678-.515a3.177 3.177 0 0 0-.58-.008c-.2 0-.528.076-.803.376s-1.054 1.03-1.054 2.508c0 1.48 1.08 2.912 1.23 3.113.152.2 2.124 3.242 5.143 4.544 2.115.912 2.87.822 3.396.685.584-.153 1.782-.728 2.032-1.43s.25-1.302.175-1.43c-.075-.126-.276-.2-.578-.35z"/>
+            </svg>
+            Kirim via WhatsApp
+        </button>
+
+        <div class="or">atau</div>
+
+        <button class="btn-copy" id="btnCopy" onclick="copyLink()" disabled>
+            📋 Salin Link Undangan
+        </button>
+    </div>
+
+    <div class="footer">share.html · war-digital.github.io/intan-yusril</div>
+
+    <div class="toast" id="toast"></div>
+
+<script>
+    // ── URL undangan (sudah disesuaikan dengan GitHub Pages) ──
+    const BASE_URL = 'https://war-digital.github.io/intan-yusril/';
+
+    function getLink(name) {
+        return BASE_URL + '?to=' + encodeURIComponent(name.trim());
+    }
+
+    function onNameInput() {
+        const name = document.getElementById('guestName').value.trim();
+        const preview = document.getElementById('previewLink');
+        const btnWA   = document.getElementById('btnWA');
+        const btnCopy = document.getElementById('btnCopy');
+
+        if (!name) {
+            preview.innerHTML = 'Link undangan akan muncul di sini setelah Anda mengetik nama tamu...';
+            btnWA.disabled   = true;
+            btnCopy.disabled = true;
+            return;
+        }
+
+        const link = getLink(name);
+        preview.innerHTML =
+            `🔗 <span class="name-highlight">${escHtml(name)}</span><br>` +
+            `<span style="opacity:0.7">${escHtml(link)}</span>`;
+
+        btnWA.disabled   = false;
+        btnCopy.disabled = false;
+    }
+
+    function sendWA() {
+        const name = document.getElementById('guestName').value.trim();
+        if (!name) return;
+
+        const link = getLink(name);
+        const msg =
+`Assalamu'alaikum Warahmatullahi Wabarakatuh 🌿
+
+Kepada Yth.
+Bapak/Ibu/Saudara/i *${name}*
+
+Dengan penuh rasa syukur dan kebahagiaan, kami bermaksud mengundang Anda untuk hadir dan memberikan doa restu pada acara pernikahan kami:
+
+👰 *Intan Citra Lestari*
+🤵 *Muh. Yusril Arif Pratama*
+
+📅 Senin, 15 Juni 2026
+
+Silakan buka undangan digital kami:
+${link}
+
+Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir. 🤍
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh`;
+
+        // Buka WhatsApp tanpa nomor → memilih kontak sendiri
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+
+        showToast('✅ WhatsApp dibuka!');
+    }
+
+    function copyLink() {
+        const name = document.getElementById('guestName').value.trim();
+        if (!name) return;
+        const link = getLink(name);
+        navigator.clipboard.writeText(link)
+            .then(() => showToast('📋 Link berhasil disalin!'))
+            .catch(() => {
+                // Fallback untuk browser lama
+                const ta = document.createElement('textarea');
+                ta.value = link;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showToast('📋 Link berhasil disalin!');
+            });
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function escHtml(s) {
+        return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+</script>
+</body>
+</html>
