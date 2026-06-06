@@ -274,9 +274,12 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             await fetch(SCRIPT_URL, {
                 method: 'POST',
+                mode: 'no-cors',
                 body: JSON.stringify({ name: nameInput, message: messageInput, replyTo: parentId }),
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' }
             });
+            // Tunggu sebentar lalu muat ulang (no-cors tidak bisa baca response)
+            await new Promise(resolve => setTimeout(resolve, 1500));
             await loadWishes();
         } catch (error) {
             console.error('Gagal membalas pesan:', error);
@@ -305,17 +308,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Mengirim data ke Google Sheets
+                // mode: 'no-cors' diperlukan agar tidak diblokir CORS saat hosting di GitHub Pages
                 await fetch(SCRIPT_URL, {
                     method: 'POST',
+                    mode: 'no-cors',
                     body: JSON.stringify({ name: nameInput, message: messageInput }),
-                    // Menggunakan text/plain agar tidak terblokir peraturan CORS di browser
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }
                 });
 
                 // Reset kolom pengisian
                 wishesForm.reset();
 
-                // Tampilkan pesan baru yang baru saja masuk (memuat ulang daftar)
+                // Tunggu sebentar lalu muat ulang (no-cors tidak bisa baca response)
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 await loadWishes();
 
                 // Otomatis geser/scroll daftar pesan ke paling atas
